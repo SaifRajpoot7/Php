@@ -25,7 +25,7 @@ include('header.php');
 <div class="container">
     <h2>Login</h2>
 
-    <form>
+    <form method="post">
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">

@@ -1,6 +1,12 @@
 <?php
 include('config.php');
-
+$currentUri = $_SERVER['REQUEST_URI'];
+echo $currentUri;
+if (strpos($currentUri, '/php/crud_app_PDO/index.php') !== false) {
+    if (!isset($_SESSION['logedin'])) {
+        header("location: http://localhost/php/crud_app_PDO/login.php");
+    }
+}
 ?>
 
 <!DOCTYPE html>
