@@ -100,36 +100,37 @@ include('config.php');
     ///////////////////////////  successfully Deletion Result  ///////////////////////
 
     if (!empty($_SESSION['delete-success'])) {
-        ?>
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                <?php
-                foreach ($_SESSION['delete-success'] as $deleteSuccessMsg) {
-                    echo $deleteSuccessMsg['msg'];
-                ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                <?php
-                }
-                ?>
-            </div>
-        <?php
-            unset($_SESSION['delete-success']);
-        }
-    
-        ///////////////////////////  Not Successfully Deletion Result  ///////////////////////
+    ?>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <?php
+            foreach ($_SESSION['delete-success'] as $deleteSuccessMsg) {
+                echo $deleteSuccessMsg['msg'];
+            ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <?php
+            }
+            ?>
+        </div>
+    <?php
+        unset($_SESSION['delete-success']);
+    }
 
-        if (!empty($_SESSION['delete-unsuccess'])) {
-        ?>
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                <?php
-                foreach ($_SESSION['delete-unsuccess'] as $deleteUnsuccessMsg) {
-                    echo $deleteUnsuccessMsg['msg'];
-                ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                <?php
-                }
-                ?>
-            </div>
-        <?php
-            unset($_SESSION['delete-unsuccess']);
-        }
+    ///////////////////////////  Not Successfully Deletion Result  ///////////////////////
+
+    if (!empty($_SESSION['delete-unsuccess'])) {
+    ?>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <?php
+            foreach ($_SESSION['delete-unsuccess'] as $deleteUnsuccessMsg) {
+                echo $deleteUnsuccessMsg['msg'];
+            ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <?php
+            }
+            ?>
+        </div>
+    <?php
+        unset($_SESSION['delete-unsuccess']);
+    }
+
     ?>
