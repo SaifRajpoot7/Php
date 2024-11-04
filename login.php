@@ -17,14 +17,24 @@ function loginSystem()
         $result->bindParam(':userEmail', $user_email);
         $result->execute();
         $pass_rows = $result->fetchAll(\PDO::FETCH_ASSOC);
-        foreach($pass_rows as $pass){
-            if($pass['user_password'] == $user_password){
-                $_SESSION['logedin'][] = [
-                    "type" => "logedin",
-                ];
+        foreach ($pass_rows as $pass) {
+            if ($pass['user_password'] == $user_password) {
+                $_SESSION['logedin'] = TRUE;
                 header("location: http://localhost/php/crud_app_PDO/index.php");
             }
+            else{
+                $_SESSION['login_errors'][] = [
+                    "type" => "invalid_password",
+                    "msg" => "Your password is incorrect."
+                ];
+            }
         }
+    }
+    else{
+        $_SESSION['login_errors'][] = [
+            "type" => "invalid_email",
+            "msg" => "Please Enter a valid email."
+        ];
     }
 }
 

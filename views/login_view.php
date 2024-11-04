@@ -7,7 +7,6 @@ include('header.php');
         width: 30vw;
         justify-content: center;
         align-content: center;
-
     }
 
     input,

@@ -1,10 +1,9 @@
 <?php
-include('config.php');
 $currentUri = $_SERVER['REQUEST_URI'];
-echo $currentUri;
-if (strpos($currentUri, '/php/crud_app_PDO/index.php') !== false) {
-    if (!isset($_SESSION['logedin'])) {
+if (!isset($_SESSION['logedin']) || $_SESSION['logedin'] !== TRUE) {
+    if (strpos($currentUri, '/php/crud_app_PDO/login.php') === FALSE) {
         header("location: http://localhost/php/crud_app_PDO/login.php");
+        exit;
     }
 }
 ?>
@@ -43,100 +42,119 @@ if (strpos($currentUri, '/php/crud_app_PDO/index.php') !== false) {
                     </li>
                 </ul>
             </div>
+            <form method="post" action="logout.php">
+        <button class="btn btn-outline-success" type="submit">Log out</button>
+      </form>
         </div>
     </nav>
     <?php
-
-    ///////////////////////////  Form Validation Result  ///////////////////////
-
-    if (!empty($_SESSION['form-validation']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    ?>
+    ///////////////////////////  Login Validation Result  ///////////////////////
+    if (!empty($_SESSION['login_errors']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+        ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-
+    
             <?php
-
-            foreach ($_SESSION['form-validation'] as $notice) {
-
-                echo $notice['msg'] ?> </br>
+    
+                foreach ($_SESSION['login_errors'] as $notice) {
+    
+                    echo $notice['msg'] ?> </br>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <?php }
             ?>
         </div>
     <?php
-        unset($_SESSION['form-validation']);
-    }
-
-
-    ///////////////////////////  successfully Submition Result  ///////////////////////
-
-    if (!empty($_SESSION['submit-success']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+                unset($_SESSION['login_errors']);
+            }
+            ///////////////////////////  Form Validation Result  ///////////////////////
+        
+        if (!empty($_SESSION['form-validation']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     ?>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <?php
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+        <?php
+
+            foreach ($_SESSION['form-validation'] as $notice) {
+
+                echo $notice['msg'] ?> </br>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php }
+        ?>
+    </div>
+<?php
+            unset($_SESSION['form-validation']);
+        }
+
+
+        ///////////////////////////  successfully Submition Result  ///////////////////////
+
+        if (!empty($_SESSION['submit-success']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+?>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <?php
             foreach ($_SESSION['submit-success'] as $submitSuccessMsg) {
                 echo $submitSuccessMsg['msg'];
-            ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <?php
+        ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php
             }
-            ?>
-        </div>
-    <?php
-        unset($_SESSION['submit-success']);
-    }
+        ?>
+    </div>
+<?php
+            unset($_SESSION['submit-success']);
+        }
 
-    ///////////////////////////  Not Successfully Submition Result  ///////////////////////
+        ///////////////////////////  Not Successfully Submition Result  ///////////////////////
 
-    if (!empty($_SESSION['submit-unsuccess']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    ?>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <?php
+        if (!empty($_SESSION['submit-unsuccess']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+?>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <?php
             foreach ($_SESSION['submit-unsuccess'] as $submitUnsuccessMsg) {
                 echo $submitUnsuccessMsg['msg'];
-            ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <?php
+        ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php
             }
-            ?>
-        </div>
-    <?php
-        unset($_SESSION['submit_unsuccess']);
-    }
+        ?>
+    </div>
+<?php
+            unset($_SESSION['submit_unsuccess']);
+        }
 
-    ///////////////////////////  successfully Deletion Result  ///////////////////////
+        ///////////////////////////  successfully Deletion Result  ///////////////////////
 
-    if (!empty($_SESSION['delete-success'])) {
-    ?>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <?php
+        if (!empty($_SESSION['delete-success'])) {
+?>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <?php
             foreach ($_SESSION['delete-success'] as $deleteSuccessMsg) {
                 echo $deleteSuccessMsg['msg'];
-            ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <?php
+        ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php
             }
-            ?>
-        </div>
-    <?php
-        unset($_SESSION['delete-success']);
-    }
+        ?>
+    </div>
+<?php
+            unset($_SESSION['delete-success']);
+        }
 
-    ///////////////////////////  Not Successfully Deletion Result  ///////////////////////
+        ///////////////////////////  Not Successfully Deletion Result  ///////////////////////
 
-    if (!empty($_SESSION['delete-unsuccess'])) {
-    ?>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <?php
+        if (!empty($_SESSION['delete-unsuccess'])) {
+?>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <?php
             foreach ($_SESSION['delete-unsuccess'] as $deleteUnsuccessMsg) {
                 echo $deleteUnsuccessMsg['msg'];
-            ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <?php
+        ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php
             }
-            ?>
-        </div>
-    <?php
-        unset($_SESSION['delete-unsuccess']);
-    }
+        ?>
+    </div>
+<?php
+            unset($_SESSION['delete-unsuccess']);
+        }
 
-    ?>
+?>
