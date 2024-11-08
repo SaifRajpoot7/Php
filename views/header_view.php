@@ -26,19 +26,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <?php
-            if (stripos($currentUri, '/php/crud_app_PDO/login.php') !== FALSE || stripos($currentUri, '/php/crud_app_PDO/register.php') !== FALSE) {}
-            else{
-            ?>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost/php/crud_app_PDO/index.php">Home</a>
-                    </li>
-                </ul>
+
                 <?php
-            }
-            ?>
+                if (stripos($currentUri, '/php/crud_app_PDO/login.php') !== FALSE || stripos($currentUri, '/php/crud_app_PDO/register.php') !== FALSE) {
+                } else {
+                ?>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="http://localhost/php/crud_app_PDO/index.php">Home</a>
+                        </li>
+                    </ul>
+                <?php
+                }
+                ?>
             </div>
+
             <?php
             if (stripos($currentUri, '/php/crud_app_PDO/login.php') !== FALSE) {
             ?>
@@ -47,10 +49,24 @@
             } else if (stripos($currentUri, '/php/crud_app_PDO/register.php') !== FALSE) {
             ?>
                 <a class="btn btn-outline-success" type="submit" href="login.php">Login</a>
-            <?php
+                <?php
             } else {
-            ?>
-                <form method="post" action="logout.php">
+                if (!empty($user_detail)) {
+                ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                    </svg>
+                    <h5>
+                        <?php
+                        foreach ($user_detail as $notice) {
+                            echo $notice['user_name'];
+                        }
+                        ?>
+                    </h5>
+                <?php
+                }
+                ?>
+                <form method="post" action="logout.php" style="margin-left: 20px;">
                     <button class="btn btn-outline-success" type="submit">Log out</button>
                 </form>
             <?php
@@ -59,6 +75,24 @@
         </div>
     </nav>
     <?php
+
+    ///////////////////////////  Registration Validation Result  ///////////////////////
+    if (!empty($registraion_errors)) {
+    ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+            <?php
+
+            foreach ($registraion_errors as $notice) {
+
+                echo $notice['msg'] ?> </br>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <?php }
+            ?>
+        </div>
+    <?php
+        unset($_SESSION["register_form_validation"]);
+    }
 
     ///////////////////////////  Login Validation Result  ///////////////////////
     if (!empty($login_errors)) {

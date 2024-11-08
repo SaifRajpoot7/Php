@@ -69,45 +69,35 @@ function savingDataInDatabase($conn)
     $email = $_POST['email'];
     $contact = $_POST['contact'];
 
-    // Die if connection was not successful
+    if (!isset($_SESSION["form-validation"])) {
 
-    if (!$conn) {
-        // die("Sorry we failed to connect: " . mysqli_connect_error());
-    } else {
+        // Submit these to a database
 
-
-
-        // check that the values are in correct format
-
-        if (empty($_POST['name']) == FALSE && empty($_POST['father-name']) == FALSE && empty($_POST['email']) == FALSE && str_contains($_POST['email'], '@') == TRUE && empty($_POST['contact'] == FALSE)) {
-
-            // Submit these to a database
-
-            // Sql query to be executed
-            $sql = "INSERT INTO student (name, father_name, email, contact) VALUES (:name, :father_name, :email, :contact)";
-            $result = $conn->prepare($sql);
-            $result->bindParam(':name', $name);
-            $result->bindParam(':father_name', $father_name);
-            $result->bindParam(':email', $email);
-            $result->bindParam(':contact', $contact);
-            $result->execute();
+        // Sql query to be executed
+        $sql = "INSERT INTO student (name, father_name, email, contact) VALUES (:name, :father_name, :email, :contact)";
+        $result = $conn->prepare($sql);
+        $result->bindParam(':name', $name);
+        $result->bindParam(':father_name', $father_name);
+        $result->bindParam(':email', $email);
+        $result->bindParam(':contact', $contact);
+        $result->execute();
 
 
-            if ($result) {
+        if ($result) {
 
-                $_SESSION["submit-success"][] = [
-                    "type" => "submit-success",
-                    "msg" => "Success! Your note was successfully submitted."
-                ];
-            } else {
-                $_SESSION["submit-unsuccess"][] = [
-                    "type" => "submit-unsuccess",
-                    "msg" => "Unsuccess! Your note was not successfully submitted."
-                ];
-            }
+            $_SESSION["submit-success"][] = [
+                "type" => "submit-success",
+                "msg" => "Success! Your note was successfully submitted."
+            ];
+        } else {
+            $_SESSION["submit-unsuccess"][] = [
+                "type" => "submit-unsuccess",
+                "msg" => "Unsuccess! Your note was not successfully submitted."
+            ];
         }
     }
 }
+
 
 // -------------------------------------- Form Data Handling--------------------------------------- 
 

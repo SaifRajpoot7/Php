@@ -7,6 +7,15 @@ if (!isset($_SESSION['logedin'])) {
     }
 }
 
+if (isset($_SESSION['login_user_details'])){
+    $user_detail = $_SESSION['login_user_details'];
+}
+
+///////////////////////////  Registration Validation Result  ///////////////////////
+if (!empty($_SESSION['register_form_validation']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $registraion_errors = $_SESSION['register_form_validation'];
+}
+
 ///////////////////////////  Login Validation Result  ///////////////////////
 if (!empty($_SESSION['login_errors']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_errors = $_SESSION['login_errors'];
